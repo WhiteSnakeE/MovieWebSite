@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Registration</title>
+    <title>Edit</title>
 </head>
 <body>
-<h1>Register</h1>
+<h1>Editor</h1>
 
 <div>
     <form th:action="@{/information/new}" th:object="${customerInfo1}" method="post">
@@ -21,6 +21,14 @@
                     <br>
                     <h2>mobilePhone</h2>
                     <input type="tel" th:field="*{mobilePhone}">
+        <div th:object="${customer1}">
+            <h2>Login:</h2>
+            <input type="text" th:field="*{login}" >
+            <h2>Email:</h2>
+            <input type="text" th:field="*{email}" >
+        </div>
+
+            <br>
                 <br>
                 <input type="submit" value="Save"/>
     </form>

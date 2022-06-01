@@ -1,19 +1,24 @@
 package com.vladkharchenko.coursework.spring.mycoursework.controller;
 
 import com.vladkharchenko.coursework.spring.mycoursework.dao.CustomerRepository;
+import com.vladkharchenko.coursework.spring.mycoursework.dao.MoviesRepository;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Customer;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Customerinfo;
+import com.vladkharchenko.coursework.spring.mycoursework.entity.Movie;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Role;
 import com.vladkharchenko.coursework.spring.mycoursework.service.CustomerService;
+import com.vladkharchenko.coursework.spring.mycoursework.service.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -21,6 +26,12 @@ public class MyController {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private MoviesRepository moviesRepository;
+
+    @Autowired
+    private MoviesService moviesService;
 
 
     @Autowired
@@ -64,23 +75,39 @@ public class MyController {
         return "information";
     }
     @GetMapping("/information/new")
-    public String editInfo(Principal principal, Model model){
+    public String editInfo(Principal principal, Model customerInfoModel,Model customerModel){
         Customer customer = customerRepository.findByLogin(principal.getName());
         Customerinfo customerinfo = customer.getCustomerinfo();
-        model.addAttribute("customerInfo1",customerinfo);
+        customerInfoModel.addAttribute("customerInfo1",customerinfo);
+        customerModel.addAttribute("customer1",customer);
         return "edit-info";
     }
 
     @PostMapping("/information/new")
-    public String setInfo(Principal principal,Customerinfo customerinfo){
+    public String setInfo(Customerinfo customerinfo,Principal principal,@ModelAttribute Customer customer1){
         Customer customer = customerRepository.findByLogin(principal.getName());
         customer.getCustomerinfo().setName(customerinfo.getName());
         customer.getCustomerinfo().setSurname(customerinfo.getSurname());
         customer.getCustomerinfo().setAge(customerinfo.getAge());
         customer.getCustomerinfo().setMobilePhone(customerinfo.getMobilePhone());
         customerinfo.setCustomer(customer);
+        customer.setLogin(customer1.getLogin());
+        customer.setEmail(customer1.getEmail());
         customerRepository.save(customer);
-        return "index";
+        return "login";
     }
 
+    @GetMapping("/movies")
+    public String showAllMovies(Model model){
+        List<Movie> movies = moviesRepository.getAllMoviesBy();
+        System.out.println(movies);
+        model.addAttribute("Movies",movies);
+        return "movies";
+    }
+    @GetMapping("/movies/{id}")
+    public String showMovie(@PathVariable int id, Model model){
+        Movie movie = moviesService.getMovie(id);
+        model.addAttribute("nameOfMovie",movie.getMovie_name());
+        return "movies-watch";
+    }
 }

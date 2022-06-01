@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+                      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">>
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+</head>
+<body>
+<tr th:each="Movie: ${Movies}">
+    <a th:href = "@{/movies/{id}(id=${Movie.id_movies})}">
+        <td th:text ="*{Movie.movie_name}"></td>
+    </a>
+    <br><br>
+</tr>
+</body>
+</html>
