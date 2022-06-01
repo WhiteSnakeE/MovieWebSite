@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @AllArgsConstructor
 public class Customer {
     @Id
@@ -33,20 +32,20 @@ public class Customer {
     @Column(name = "role")
     private Role role;
 
-    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     @JsonManagedReference
     private Customerinfo customerinfo;
 
-    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
-    @JsonManagedReference
-    private UserSubscribe userSubscribe;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JoinColumn(name = "id_issuing" )
-    private List<Issuingfilm> issuingfilms;
+//    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
+//    @JoinColumn(name = "customer_id")
+//    @JsonManagedReference
+//    private UserSubscribe userSubscribe;
+//
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    @JoinColumn(name = "id_issuing" )
+//    private List<Issuingfilm> issuingfilms;
 
 
 }

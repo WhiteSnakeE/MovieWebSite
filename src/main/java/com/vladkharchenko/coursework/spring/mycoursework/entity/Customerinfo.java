@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Customerinfo {
     @Id
     @Column(name = "customer_id")
@@ -21,7 +20,7 @@ public class Customerinfo {
     private String name;
 
     @Column(name = "surname")
-    private String surName;
+    private String surname;
 
     @Column(name = "age")
     private Integer age;
