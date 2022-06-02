@@ -35,12 +35,12 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "id_company")
     private Company company;
-//
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    @JoinColumn(name = "id_issuing" )
-//    private List<Issuingfilm> issuingfilmsList;
-//
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JoinColumn(name = "id_issuing" )
+    private List<Issuingfilm> issuingfilmsList;
+
 //
 //    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 //    @JoinTable(name ="movies_has_genre"

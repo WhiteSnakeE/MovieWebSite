@@ -10,12 +10,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class Filmstatus {
 
+public class Filmstatus {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_issuing")
     private int id_issuing;
 
@@ -27,5 +24,8 @@ public class Filmstatus {
     @JsonBackReference
     @JoinColumn(name = "id_issuing")
     private Issuingfilm issuingFilms;
-
+    public Filmstatus(Status status, Issuingfilm issuingFilms) {
+        this.status = status;
+        this.issuingFilms = issuingFilms;
+    }
 }

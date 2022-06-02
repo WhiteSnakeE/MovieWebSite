@@ -19,17 +19,20 @@
         <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
-
     </button>
     <button>
         <form th:action="@{/information}" method="get">
         <input type="submit" value="Information"/>
         </form>
-
     </button>
     <button>
         <form th:action="@{/movies}" method="get">
         <input type="submit" value="Show Movies"/>
+        </form>
+    </button>
+    <button>
+        <form th:action="@{/library}" method="get">
+            <input type="submit" value="My movie library"/>
         </form>
     </button>
 </div>

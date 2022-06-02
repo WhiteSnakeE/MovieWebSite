@@ -2,6 +2,7 @@ package com.vladkharchenko.coursework.spring.mycoursework.controller;
 
 import com.vladkharchenko.coursework.spring.mycoursework.dao.AuthorRep;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.CustomerRepository;
+import com.vladkharchenko.coursework.spring.mycoursework.dao.IssuingfilmRep;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.MoviesRepository;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.*;
 import com.vladkharchenko.coursework.spring.mycoursework.service.CustomerService;
@@ -10,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.*;
+import java.sql.Date;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +25,8 @@ public class MyController {
     @Autowired
     private MoviesRepository moviesRepository;
 
+    @Autowired
+    private IssuingfilmRep issuingfilmRep;
     @Autowired
     private AuthorRep authorRep;
     @Autowired
@@ -64,7 +65,6 @@ public class MyController {
         Customer customer = customerRepository.findByLogin(principal.getName());
         Customerinfo customerinfo = customer.getCustomerinfo();
         model.addAttribute("info",customerinfo);
-
         customerModel.addAttribute("infoCus",customer);
         return "information";
     }
@@ -106,4 +106,26 @@ public class MyController {
         model.addAttribute("MovieAuthor",movie.getAuthor());
         return "movies-watch";
     }
+    @GetMapping("/library")
+    public String library(){
+        return "customer-movie-library";
+    }
+
+    @PostMapping("/movies/{id}")
+    public String buyMovie(@PathVariable int id, Model model,Principal principal,Issuingfilm issuingfilm,Filmstatus filmstatus){
+        Customer customer = customerRepository.findByLogin(principal.getName());
+        Movie movie = moviesService.getMovie(id);
+        LocalDate startDate  = LocalDate.now();
+        LocalDate endDate = startDate.plusMonths(1);
+        issuingfilm.setIssuingData(startDate);
+        issuingfilm.setReturnData(endDate);
+        issuingfilm.setMovie(movie);
+        issuingfilm.setCustomer(customer);
+        filmstatus.setStatus(Status.PAID);
+        issuingfilm.setFilmstatus(filmstatus);
+        filmstatus.setIssuingFilms(issuingfilm);
+        issuingfilmRep.save(issuingfilm);
+        return "index";
+    }
+
 }

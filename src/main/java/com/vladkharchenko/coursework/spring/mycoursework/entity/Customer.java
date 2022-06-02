@@ -42,10 +42,10 @@ public class Customer {
 //    @JsonManagedReference
 //    private UserSubscribe userSubscribe;
 //
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    @JoinColumn(name = "id_issuing" )
-//    private List<Issuingfilm> issuingfilms;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JoinColumn(name = "id_issuing" )
+    private List<Issuingfilm> issuingfilms;
 
 
 }

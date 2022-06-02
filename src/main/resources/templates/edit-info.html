@@ -8,7 +8,7 @@
 <h1>Editor</h1>
 
 <div>
-    <form th:action="@{/information/new}" th:object="${customerInfo1}" method="post">
+    <form th:action="@{/information/new}" th:object="${customerInfo1}" method="post" >
 
                     <h2>Name:</h2>
                     <input type="text" th:field="*{name}">
@@ -21,6 +21,7 @@
                     <br>
                     <h2>mobilePhone</h2>
                     <input type="tel" th:field="*{mobilePhone}">
+
         <div th:object="${customer1}">
             <h2>Login:</h2>
             <input type="text" th:field="*{login}" >

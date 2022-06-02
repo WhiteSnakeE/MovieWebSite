@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "issuingfilms")
@@ -23,10 +24,10 @@ public class Issuingfilm {
     private int id_issuing;
 
     @Column(name = "issuing_data")
-    private Date issuingData;
+    private LocalDate issuingData;
 
     @Column(name = "return_data")
-    private Date returnData;
+    private LocalDate returnData;
 
     @ManyToOne
     @JoinColumn(name = "id_movies")
@@ -42,8 +43,6 @@ public class Issuingfilm {
     @PrimaryKeyJoinColumn
     @JsonManagedReference
     private Filmstatus filmstatus;
-
-
 
 
 }
