@@ -7,10 +7,18 @@
 </head>
 <body>
 <tr th:each="Movie: ${Movies}">
+
     <a th:href = "@{/movies/{id}(id=${Movie.id_movies})}">
+
         <td th:text ="*{Movie.movie_name}"></td>
     </a>
     <br><br>
 </tr>
+<br>
+<div>
+    <form th:action="@{/}" method="get">
+        <input type="submit" value=Return>
+    </form>
+</div>
 </body>
 </html>

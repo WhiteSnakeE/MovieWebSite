@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,13 +28,13 @@ public class Movie {
     @Column(name = "review")
     private float review;
 
-//    @ManyToOne
-//    @JoinColumn(name = "id_author")
-//    private Author author;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "id_company")
-//    private Company company;
+    @ManyToOne
+    @JoinColumn(name = "id_author")
+    private Author author;
+
+    @ManyToOne
+    @JoinColumn(name = "id_company")
+    private Company company;
 //
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JsonManagedReference
@@ -49,11 +49,11 @@ public class Movie {
 //
 //    private List<Genre> genres;
 //
-//    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-//    @JoinTable(name ="movies_has_actors"
-//            ,joinColumns = @JoinColumn(name = "id_movies")
-//            ,inverseJoinColumns = @JoinColumn(name = "id_actors"))
-//    private List<Actor> actors;
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinTable(name ="movies_has_actors"
+            ,joinColumns = @JoinColumn(name = "id_movies")
+            ,inverseJoinColumns = @JoinColumn(name = "id_actors"))
+    private List<Actor> actors;
 
 //
 //    @OneToMany(cascade = CascadeType.ALL)

@@ -1,11 +1,9 @@
 package com.vladkharchenko.coursework.spring.mycoursework.controller;
 
+import com.vladkharchenko.coursework.spring.mycoursework.dao.AuthorRep;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.CustomerRepository;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.MoviesRepository;
-import com.vladkharchenko.coursework.spring.mycoursework.entity.Customer;
-import com.vladkharchenko.coursework.spring.mycoursework.entity.Customerinfo;
-import com.vladkharchenko.coursework.spring.mycoursework.entity.Movie;
-import com.vladkharchenko.coursework.spring.mycoursework.entity.Role;
+import com.vladkharchenko.coursework.spring.mycoursework.entity.*;
 import com.vladkharchenko.coursework.spring.mycoursework.service.CustomerService;
 import com.vladkharchenko.coursework.spring.mycoursework.service.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +21,17 @@ import java.util.Map;
 
 @Controller
 public class MyController {
-
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private MoviesRepository moviesRepository;
 
     @Autowired
+    private AuthorRep authorRep;
+    @Autowired
     private MoviesService moviesService;
-
-
     @Autowired
      private PasswordEncoder  passwordEncoder;
-
     @GetMapping({"/", ""})
     public String index() {
         return "index";
@@ -64,7 +59,6 @@ public class MyController {
          customerRepository.save(customer);
         return "redirect:/login";
     }
-
     @GetMapping("/information")
     public String information(Principal principal ,Model model,Model customerModel){
         Customer customer = customerRepository.findByLogin(principal.getName());
@@ -82,7 +76,6 @@ public class MyController {
         customerModel.addAttribute("customer1",customer);
         return "edit-info";
     }
-
     @PostMapping("/information/new")
     public String setInfo(Customerinfo customerinfo,Principal principal,@ModelAttribute Customer customer1){
         Customer customer = customerRepository.findByLogin(principal.getName());
@@ -96,7 +89,6 @@ public class MyController {
         customerRepository.save(customer);
         return "login";
     }
-
     @GetMapping("/movies")
     public String showAllMovies(Model model){
         List<Movie> movies = moviesRepository.getAllMoviesBy();
@@ -107,7 +99,11 @@ public class MyController {
     @GetMapping("/movies/{id}")
     public String showMovie(@PathVariable int id, Model model){
         Movie movie = moviesService.getMovie(id);
-        model.addAttribute("nameOfMovie",movie.getMovie_name());
+//        Author author = authorRep.getById(movie.getAuthor().getId());
+        model.addAttribute("Movie",movie);
+        model.addAttribute("MovieCompany",movie.getCompany().getCompanyName());
+        model.addAttribute("MovieActors",movie.getActors());
+        model.addAttribute("MovieAuthor",movie.getAuthor());
         return "movies-watch";
     }
 }

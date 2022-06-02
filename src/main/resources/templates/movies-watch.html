@@ -5,6 +5,46 @@
     <title>Watch movie online</title>
 </head>
 <body>
-<span th:text="*{nameOfMovie}"></span>
+<div>
+    <label>Name:</label>
+        <span th:text="*{Movie.movie_name}"></span>
+    <p>
+        <label>Release Data:</label>
+            <span th:text="*{Movie.releaseData}"></span>
+    </p>
+   <p>
+       <label>Price:</label>
+            <span th:text="*{Movie.movies_price}"></span>
+   </p>
+    <p>
+        <label>Review:</label>
+            <span th:text="*{Movie.review}"></span>
+    </p>
+    <p>
+        <label>Company:</label>
+            <span th:text="*{MovieCompany}"></span>
+    </p>
+    <p>
+    <label>Actors:</label>
+        <tr th:each="MovieActor: ${MovieActors}">
+
+            <td th:text ="*{MovieActor.name}"></td>
+
+            <td th:text ="*{MovieActor.surname}"></td>
+
+        </tr>
+    </p>
+    <p>
+        <label>Author:</label>
+            <span th:text="*{MovieAuthor.authorName}"></span>
+
+            <span th:text="*{MovieAuthor.authorSurName}"></span>
+    </p>
+</div>
+<div>
+    <form th:action="@{/movies}" method="get">
+        <input type="submit" value=Return>
+    </form>
+</div>
 </body>
 </html>
