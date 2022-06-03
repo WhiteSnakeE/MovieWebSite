@@ -5,6 +5,31 @@
     <title>Your movie library</title>
 </head>
 <body>
+<div>
+    <table border="1">
+        <tr>
+            <th>№ order</th>
+            <th>Issuing Data</th>
+            <th>Return Data</th>
+            <th>Movie Name</th>
+<!--            <th>Status</th>-->
+        </tr>
+        <tr th:each="YourFilm : ${YourFilms}">
+            <td th:text="${YourFilm.id_issuing}"></td>
+            <td th:text="${YourFilm.issuingData}"></td>
+            <td th:text="${YourFilm.returnData}"></td>
+            <td th:text="${YourFilm.movie.movie_name}"></td>
+<!--            <td th:text="${YourFilm.filmstatus.status}"></td>-->
 
+        </tr>
+    </table>
+</div>
+
+<br>
+<div>
+    <form th:action="@{/}" method="get">
+        <input type="submit" value=Return>
+    </form>
+</div>
 </body>
 </html>

@@ -42,9 +42,8 @@ public class Customer {
 //    @JsonManagedReference
 //    private UserSubscribe userSubscribe;
 //
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "customer",fetch = FetchType.LAZY)
     @JsonManagedReference
-    @JoinColumn(name = "id_issuing" )
     private List<Issuingfilm> issuingfilms;
 
 

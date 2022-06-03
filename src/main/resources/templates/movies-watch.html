@@ -26,11 +26,11 @@
     </p>
     <p>
     <label>Actors:</label>
-        <tr th:each="MovieActor: ${MovieActors}">
+        <tr th:each="MovieActor,iterStat : ${MovieActors}">
 
             <td th:text ="*{MovieActor.name}"></td>
 
-            <td th:text ="*{MovieActor.surname}"></td>
+            <td th:text ="${MovieActor.surname} + ${!iterStat.last ? ', ' : ''}"></td>
 
         </tr>
     </p>
@@ -40,17 +40,34 @@
 
             <span th:text="*{MovieAuthor.authorSurName}"></span>
     </p>
+    <p>
+        <label>Genres:</label>
+        <tr th:each="MovieGenre,iterStat : ${MovieGenres}">
+
+            <td th:text ="${MovieGenre.name} + ${!iterStat.last ? ', ' : ''}"></td>
+
+        </tr>
+    </p>
 </div>
 <div class="container-buttons">
-    <button><form th:action="@{/movies}" method="get">
+    <button>
+        <form th:action="@{/movies}" method="get">
         <input type="submit" value=Return>
     </form>
     </button>
-    <button>
-        <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
+        <br><br>
+        <span th:if="${IsAlreadyBought == 0}">
+            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
             <input type="submit" value=Buy>
         </form>
-    </button>
+        </span>
+
 </div>
+<div>
+    <span th:if="${IsAlreadyBought>0}">
+           <h2>You have already bought this movie</h2>
+       </span>
+</div>
+
 </body>
 </html>

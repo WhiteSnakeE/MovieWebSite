@@ -1,6 +1,7 @@
 package com.vladkharchenko.coursework.spring.mycoursework.service;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.CustomerRepository;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Customer;
+import com.vladkharchenko.coursework.spring.mycoursework.entity.Issuingfilm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -36,6 +37,7 @@ public class CustomerServiceImpl  implements CustomerService{
     public void deleteCustomer(int id) {
         customerRepository.deleteById(id);
     }
+
 
 
 

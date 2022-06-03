@@ -34,7 +34,8 @@ public class Issuingfilm {
     @JsonBackReference
     private Movie movie;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.DETACH, CascadeType.REFRESH})
     @JsonBackReference
     @JoinColumn(name = "customer_id")
     private Customer customer;

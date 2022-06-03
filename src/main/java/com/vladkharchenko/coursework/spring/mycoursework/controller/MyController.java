@@ -27,6 +27,7 @@ public class MyController {
 
     @Autowired
     private IssuingfilmRep issuingfilmRep;
+
     @Autowired
     private AuthorRep authorRep;
     @Autowired
@@ -96,18 +97,35 @@ public class MyController {
         model.addAttribute("Movies",movies);
         return "movies";
     }
+
     @GetMapping("/movies/{id}")
-    public String showMovie(@PathVariable int id, Model model){
+    public String showMovie(@PathVariable int id, Model model,Principal principal){
         Movie movie = moviesService.getMovie(id);
-//        Author author = authorRep.getById(movie.getAuthor().getId());
+        Customer customer = customerRepository.findByLogin(principal.getName());
+        List<Issuingfilm> issuingfilmList = customer.getIssuingfilms();
+        int result;
+        int  count=0;
+        LocalDate startDate  = LocalDate.now();
+        for (Issuingfilm issuing:issuingfilmList) {
+            result=startDate.compareTo(issuing.getReturnData());
+            if(issuing.getMovie().getId_movies()==id && result<0){
+                count+=1;
+            }
+        }
+        System.out.println(count);
         model.addAttribute("Movie",movie);
         model.addAttribute("MovieCompany",movie.getCompany().getCompanyName());
         model.addAttribute("MovieActors",movie.getActors());
         model.addAttribute("MovieAuthor",movie.getAuthor());
+        model.addAttribute("MovieGenres",movie.getGenres());
+        model.addAttribute("IsAlreadyBought",count);
         return "movies-watch";
     }
     @GetMapping("/library")
-    public String library(){
+    public String library(Principal principal,Model model){
+        Customer customer = customerRepository.findByLogin(principal.getName());
+        List<Issuingfilm> issuingfilmList = customer.getIssuingfilms();
+        model.addAttribute("YourFilms",issuingfilmList);
         return "customer-movie-library";
     }
 
