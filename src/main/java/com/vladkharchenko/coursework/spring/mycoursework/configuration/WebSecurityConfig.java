@@ -1,5 +1,6 @@
 package com.vladkharchenko.coursework.spring.mycoursework.configuration;
 
+import com.vladkharchenko.coursework.spring.mycoursework.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +21,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter{
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
+                    .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
                     .antMatchers("/","/registration").permitAll()
                     .anyRequest().authenticated()
                     .and()

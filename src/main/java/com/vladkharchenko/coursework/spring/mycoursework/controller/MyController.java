@@ -25,12 +25,8 @@ public class MyController {
     private CustomerRepository customerRepository;
     @Autowired
     private MoviesRepository moviesRepository;
-
     @Autowired
     private IssuingfilmRep issuingfilmRep;
-
-    @Autowired
-    private AuthorRep authorRep;
     @Autowired
     private MoviesService moviesService;
     @Autowired
@@ -161,7 +157,6 @@ public class MyController {
         model.addAttribute("YourFilms", customer.getIssuingfilms());
         return "customer-movie-library";
     }
-
     @PostMapping("/movies/{id}")
     public String buyMovie(@PathVariable int id, Principal principal) {
         Customer customer = customerRepository.findByLogin(principal.getName());
@@ -170,9 +165,6 @@ public class MyController {
         LocalDate endDate = startDate.plusMonths(1);
         Issuingfilm issuingfilm = new Issuingfilm(startDate,endDate,movie,customer);
         issuingfilmRep.save(issuingfilm);
-//        if(customer.getUserSubscribe().getStatus().name().equals("PAID"))   {
-//            return "index";
-//        }
         return "index";
     }
 

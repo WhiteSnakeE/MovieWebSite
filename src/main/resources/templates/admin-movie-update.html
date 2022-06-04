@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+<div>
+<form th:action="@{/admin/allMovies/{id}(id=${MoviesInfo.id_movies})}" th:object="${MoviesInfo}" method="post">
+    <table border="1">
+        <tr>
+            <th>Movie name</th>
+            <th>Release Data</th>
+            <th>Movie Price</th>
+            <th>Review</th>
+            <th>Author(id)</th>
+            <th>Company(id)</th>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <input type="text" th:field="*{movie_name}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{releaseData}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{movies_price}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{Review}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{author.id}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{company.id_company}">
+                </label>
+            </td>
+        </tr>
+    </table>
+    <br><br>
+    <div>
+        <input type="submit" value="Update">
+    </div>
+</form>
+</div>
+</body>
+</html>

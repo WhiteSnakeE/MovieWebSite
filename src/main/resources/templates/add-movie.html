@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ADD MOVIE
+<div>
+    <form th:action="@{/admin/addMovie}" th:object="${NewMovie}" method="post">
+    <table border="1">
+        <tr>
+            <th>Movie name</th>
+            <th>Release Data</th>
+            <th>Movie Price</th>
+            <th>Review</th>
+            <th>Author(id)</th>
+            <th>Company(id)</th>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <input type="text" th:field="*{movie_name}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{releaseData}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{movies_price}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{Review}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{author}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="number" th:field="*{company}">
+                </label>
+            </td>
+        </tr>
+    </table>
+    <br><br>
+    <div>
+        <input type="submit" value="Add">
+    </div>
+    </form>
+</div>
+<div>
+    <form th:action="@{/admin/allMovies}" method="get">
+        <input type="submit" value="All Movies">
+    </form>
+
+</div>
+</body>
+</html>

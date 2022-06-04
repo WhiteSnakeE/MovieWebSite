@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Movies</title>
+</head>
+<body>
+<div>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Movie name</th>
+            <th>Release Data</th>
+            <th>Movie Price</th>
+            <th>Review</th>
+            <th>Author</th>
+            <th>Company</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        <tr th:each="AllMovie : ${AllMovies}">
+            <td th:text="${AllMovie.id_movies}"></td>
+            <td th:text="${AllMovie.movie_name}"></td>
+            <td th:text="${AllMovie.releaseData}"></td>
+            <td th:text="${AllMovie.movies_price}"></td>
+            <td th:text="${AllMovie.review}"></td>
+            <td th:text="${AllMovie.author.authorName + AllMovie.author.authorSurName} "></td>
+            <td th:text="${AllMovie.company.companyName}"></td>
+            <td>
+                <form th:action="@{/admin/allMovies/{id}(id=${AllMovie.id_movies})}" method="get">
+                <input type="submit" value=Update>
+            </form>
+            </td>
+            <td>
+                <form th:action="@{/admin/allMovies/{id}/delete(id=${AllMovie.id_movies})}" method="post">
+                    <input type="submit" value=Delete>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+<br><br>
+<div>
+    <form th:action="@{/admin/index}" method="get">
+    <input type="submit" value=Return>
+</form>
+</div>
+
+</body>
+</html>

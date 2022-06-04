@@ -40,6 +40,11 @@
             <input type="submit" value="Buy Subscribe"/>
         </form>
     </button>
+    <br><br>
+        <form th:action="@{/admin/index}" method="get"
+              sec:authorize="hasAuthority('ADMIN')">
+            <input type="submit" value="Admin panel"/>
+        </form>
 </div>
 </body>
 </html>
