@@ -37,11 +37,11 @@ public class Customer {
     @JsonManagedReference
     private Customerinfo customerinfo;
 
-//    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
-//    @JoinColumn(name = "customer_id")
-//    @JsonManagedReference
-//    private UserSubscribe userSubscribe;
-//
+    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    @JsonManagedReference
+    private UserSubscribe userSubscribe;
+
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "customer",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Issuingfilm> issuingfilms;

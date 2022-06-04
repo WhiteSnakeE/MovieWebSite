@@ -13,7 +13,6 @@
         <h2>Email</h2><span th:text="*{email}"></span>
         <br>
     </div>
-
     <div th:object="${info}">
         <div>
             <h2>Name:</h2> <span th:text="${info.name}"></span>
@@ -30,7 +29,13 @@
         <div>
             <h2>mobilePhone</h2><span th:text="${info.mobilePhone}"></span>
         </div>
-    <br>
+        <h2>Subscribe</h2>
+        <span th:if="${status.name() == 'NOT_PAID'}">Not paid</span>
+        <span th:if="${status.name() == 'PAID'}">
+            Paid until
+            <span th:text="${EndOfSub}"></span>
+        </span>
+    <br><br>
     <input type="submit" value="Return"/>
         </div>
 </form>
@@ -38,5 +43,6 @@
 <form th:action="@{/information/new}" method="get" >
     <input type="submit" value="Edit info"/>
 </form>
+
 </body>
 </html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Subscribe</title>
+</head>
+<body>
+There are you may to buy sub.
+
+<h2>Subscribe</h2>
+<span th:if="${SubStatus.name() == 'NOT_PAID'}">
+    <form th:action="@{/subscribe/done}" method="get">
+    <input type="submit" value="Buy Sub"/>
+</form>
+</span>
+<span th:if="${SubStatus.name() == 'PAID'}">
+    You have already bought sub!
+</span>
+<br>
+<form th:action="@{/}" method="get">
+    <input type="submit" value="Return"/>
+</form>
+</body>
+</html>

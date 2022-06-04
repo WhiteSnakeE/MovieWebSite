@@ -1,5 +1,6 @@
 package com.vladkharchenko.coursework.spring.mycoursework.service;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.CustomerRepository;
+import com.vladkharchenko.coursework.spring.mycoursework.dao.IssuingfilmRep;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Customer;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Issuingfilm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ public class CustomerServiceImpl  implements CustomerService{
 
     @Autowired
     private CustomerRepository customerRepository;
+
+
     @Override
     public List<Customer> getAllCustomers() {
        return customerRepository.findAll();

@@ -40,10 +40,18 @@ public class Issuingfilm {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne(mappedBy = "issuingFilms",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    @JsonManagedReference
-    private Filmstatus filmstatus;
+    public Issuingfilm(LocalDate issuingData, LocalDate returnData, Movie movie, Customer customer) {
+        this.issuingData = issuingData;
+        this.returnData = returnData;
+        this.movie = movie;
+        this.customer = customer;
+    }
+
+
+    //    @OneToOne(mappedBy = "issuingFilms",cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+//    @JsonManagedReference
+//    private Filmstatus filmstatus;
 
 
 }

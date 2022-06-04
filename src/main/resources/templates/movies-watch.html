@@ -56,9 +56,20 @@
     </form>
     </button>
         <br><br>
-        <span th:if="${IsAlreadyBought == 0}">
+        <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'NOT_PAID'}">
+            Buy for
+            <span th:text="*{Movie.movies_price}"></span>
+            dollars
+            <br><br>
             <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
             <input type="submit" value=Buy>
+        </form>
+        </span>
+    <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'PAID'}">
+            <h3>It's free for you!</h3>
+            <br><br>
+            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
+            <input type="submit" value="Get FREE">
         </form>
         </span>
 
