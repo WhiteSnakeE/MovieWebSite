@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Welcome admin!
+<br><br>
+<div class="container-buttons">
+    <button>
+        <form th:action="@{/admin/allMovies}" method="get">
+            <input type="submit" value="All Movies"/>
+        </form>
+    </button>
+    <button>
+        <form th:action="@{/admin/allAuthors}" method="get">
+            <input type="submit" value="All Authors"/>
+        </form>
+    </button>
+    <button>
+        <form th:action="@{/admin/allCompanies}" method="get">
+            <input type="submit" value="All Companies"/>
+        </form>
+    </button>
+</div>
+</body>
+</html>

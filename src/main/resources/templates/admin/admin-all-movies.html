@@ -13,7 +13,8 @@
             <th>Release Data</th>
             <th>Movie Price</th>
             <th>Review</th>
-            <th>Author</th>
+            <th>Author Name</th>
+            <th>Author Surname</th>
             <th>Company</th>
             <th>Update</th>
             <th>Delete</th>
@@ -24,8 +25,9 @@
             <td th:text="${AllMovie.releaseData}"></td>
             <td th:text="${AllMovie.movies_price}"></td>
             <td th:text="${AllMovie.review}"></td>
-            <td th:text="${AllMovie.author.authorName + AllMovie.author.authorSurName} "></td>
-            <td th:text="${AllMovie.company.companyName}"></td>
+            <td th:text="${AllMovie?.author?.authorName} "></td>
+            <td th:text="${AllMovie?.author?.authorSurName} "></td>
+            <td th:text="${AllMovie?.company?.companyName}"></td>
             <td>
                 <form th:action="@{/admin/allMovies/{id}(id=${AllMovie.id_movies})}" method="get">
                 <input type="submit" value=Update>
@@ -44,6 +46,11 @@
     <form th:action="@{/admin/index}" method="get">
     <input type="submit" value=Return>
 </form>
+</div>
+<div>
+    <form th:action="@{/admin/addMovie}" method="get">
+        <input type="submit" value="Add movie">
+    </form>
 </div>
 
 </body>

@@ -13,10 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_genre")
     private int id_genre;
 
@@ -27,6 +25,9 @@ public class Genre {
     @JoinTable(name ="movies_has_genre"
             ,joinColumns = @JoinColumn(name = "id_genre")
             ,inverseJoinColumns = @JoinColumn(name = "id_movies"))
-
     private List<Movie> movies;
+
+    public Genre(String name) {
+        this.name = name;
+    }
 }

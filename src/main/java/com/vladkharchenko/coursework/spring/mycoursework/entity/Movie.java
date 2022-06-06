@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -46,7 +47,6 @@ public class Movie {
     @JoinTable(name ="movies_has_genre"
             ,joinColumns = @JoinColumn(name = "id_movies")
             ,inverseJoinColumns = @JoinColumn(name = "id_genre"))
-
     private List<Genre> genres;
 
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -60,12 +60,12 @@ public class Movie {
 //    @JoinColumn(name =  "id_issuing" )
 //    private List<IssuingFilms> issuingFilms;
 //
-//    public void addGenreToMovie(Genre genre){
-//        if(genre==null){
-//            genres = new ArrayList<>();
-//        }
-//        genres.add(genre);
-//    }
+    public void addGenreToMovie(Genre genre){
+        if(genre==null){
+            genres = new ArrayList<>();
+        }
+        genres.add(genre);
+    }
 //
 //    public void addActorToMovie(Actors actor){
 //        if(actor==null){

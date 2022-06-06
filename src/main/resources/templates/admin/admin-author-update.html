@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/admin/allAuthors/{id}(id=${AllAuthors.id})}" th:object="${AllAuthors}" method="post">
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{companyName}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{authorSurName}">
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <div>
+            <input type="submit" value="Update">
+        </div>
+    </form>
+</div>
+</body>
+</html>

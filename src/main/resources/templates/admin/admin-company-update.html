@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/admin/allCompanies/{id}(id=${UpdateCompany.id_company})}" th:object="${UpdateCompany}" method="post">
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Year Of Foundation</th>
+                <th>Country</th>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{companyName}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="number" th:field="*{yearOfFoundation}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{country}">
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <div>
+            <input type="submit" value="Update">
+        </div>
+    </form>
+</div>
+</body>
+</html>

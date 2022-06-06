@@ -50,6 +50,15 @@ ADD MOVIE
             </td>
         </tr>
     </table>
+            <ul>
+                <li th:each ="genre:${Genres}" >
+                    <div class="checkbox-list">
+                        <input type="checkbox"  th:field = "*{genres}"  th:value = "${genre.id_genre}" />
+                        <label th:text = "${genre.name}"></label>
+                    </div>
+
+                </li>
+            </ul>
     <br><br>
     <div>
         <input type="submit" value="Add">

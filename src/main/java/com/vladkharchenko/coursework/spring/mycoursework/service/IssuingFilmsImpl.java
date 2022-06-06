@@ -15,7 +15,8 @@ public class IssuingFilmsImpl implements IssuingFimsService {
     private IssuingfilmRep issuingfilmRep;
 
     @Override
-    @Scheduled(fixedDelay=10000)
+//    @Scheduled(fixedDelay=10000)
+    @Scheduled(cron = "@hourly")
     public void deleteOldIssuing() {
         List<Issuingfilm> issuingfilms = issuingfilmRep.findAll();
         int result;

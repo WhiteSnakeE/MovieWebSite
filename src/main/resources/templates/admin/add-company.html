@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ADD MOVIE
+<div>
+    <form th:action="@{/admin/addCompany}" th:object="${NewCompany}" method="post">
+        <table border="1">
+            <tr>
+                <th>Company Name</th>
+                <th>Year of foundation</th>
+                <th>Country</th>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{companyName}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="number" th:field="*{yearOfFoundation}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{country}">
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <div>
+            <input type="submit" value="Add">
+        </div>
+    </form>
+</div>
+<div>
+    <form th:action="@{/admin/allCompanies}" method="get">
+        <input type="submit" value="Return">
+    </form>
+
+</div>
+</body>
+</html>

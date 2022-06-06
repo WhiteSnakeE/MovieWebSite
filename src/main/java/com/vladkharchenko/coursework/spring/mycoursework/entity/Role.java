@@ -7,8 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Role implements GrantedAuthority {
-    USER,
-    ADMIN;
+    USER,ADMIN;
 
     @Override
     public String getAuthority() {
