@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Add Actor
+<div>
+  <form th:action="@{/admin/addGenre}" th:object="${NewGenre}" method="post">
+    <table border="1">
+      <tr>
+        <th>Name</th>
+      </tr>
+      <tr>
+        <td>
+          <label>
+            <input type="text" th:field="*{name}">
+          </label>
+        </td>
+      </tr>
+    </table>
+    <br><br>
+    <div>
+      <input type="submit" value="Add">
+    </div>
+  </form>
+</div>
+<div>
+  <div>
+    <form th:action="@{/admin/index}" method="get">
+      <input type="submit" value="Return">
+    </form>
+  </div>
+</div>
+</body>
+</html>

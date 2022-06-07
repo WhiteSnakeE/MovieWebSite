@@ -17,7 +17,8 @@ public class UsecSubscribeImpl {
     @Autowired
     private UserSubcribeRep userSubcribeRep;
 
-    @Scheduled(fixedDelay=10000)
+//    @Scheduled(fixedDelay=10000)
+    @Scheduled(cron = "@hourly")
     public void endUserSub(){
         List<UserSubscribe> userSubscribeList = userSubcribeRep.findAll();
         int result;

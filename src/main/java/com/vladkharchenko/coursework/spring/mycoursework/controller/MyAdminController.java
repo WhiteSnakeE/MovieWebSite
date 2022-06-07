@@ -9,22 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @Controller
 @RequestMapping("/admin")
 public class MyAdminController {
-
     @Autowired
     public MoviesRepository moviesRepository;
-
     @Autowired
     public AuthorRep authorRep;
-
     @Autowired
     public CompanyRep companyRep;
-
     @Autowired
     public GenreRep genreRep;
 
@@ -33,7 +27,6 @@ public class MyAdminController {
 
         return "admin/admin-main-page";
     }
-
     @GetMapping("/addMovie")
     public String addMovie(Model model) {
         Movie movie = new Movie();
@@ -119,7 +112,6 @@ public class MyAdminController {
         authorRep.delete(author);
         return "redirect:/admin/allAuthors";
     }
-
     @GetMapping("/allCompanies")
     public String allCompany(Model model) {
         List<Company> companies = companyRep.findAll();
@@ -137,7 +129,6 @@ public class MyAdminController {
         companyRep.save(company);
         return "admin/admin-main-page";
     }
-
     @GetMapping("/allCompanies/{id}")
     public String updateCompany(@PathVariable int id, Model model) {
         Company company = companyRep.getById(id);
@@ -158,5 +149,29 @@ public class MyAdminController {
         Company company = companyRep.getById(id);
         companyRep.delete(company);
         return "redirect:/admin/allCompanies";
+    }
+    @GetMapping("/allGenres")
+    public String allGenres(Model model) {
+        List<Genre> genres = genreRep.findAll();
+        model.addAttribute("AllGenres",genres);
+        return "admin/admin-all-genres";
+    }
+    @GetMapping("/addGenre")
+    public String addGenre(Model model) {
+        Genre genre = new Genre();
+        model.addAttribute("NewGenre",genre);
+        return "admin/add-genre";
+    }
+    @PostMapping("/addGenre")
+    public String createGenre(Genre genre) {
+        genreRep.save(genre);
+        return "admin/admin-main-page";
+    }
+
+    @PostMapping("/allGenres/{id}/delete")
+    public String deleteGenre(@PathVariable int id) {
+        Genre genre = genreRep.getReferenceById(id);
+        genreRep.delete(genre);
+        return "redirect:/admin/allGenres";
     }
 }
