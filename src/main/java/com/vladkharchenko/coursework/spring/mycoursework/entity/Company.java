@@ -28,6 +28,7 @@ public class Company {
     @Column(name = "country")
     private String country;
 
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name =  "id_movies" )
     private List<Movie> movies;

@@ -3,9 +3,13 @@ package com.vladkharchenko.coursework.spring.mycoursework.service;
 import com.vladkharchenko.coursework.spring.mycoursework.dao.MoviesRepository;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Customer;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.Movie;
+import com.vladkharchenko.coursework.spring.mycoursework.entity.Status;
+import com.vladkharchenko.coursework.spring.mycoursework.entity.UserSubscribe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +26,8 @@ public class MoviesImpl implements MoviesService {
 
     @Override
     public void saveMovie(Customer customer) {
-
     }
+
 
     @Override
     public Movie getMovie(int id) {

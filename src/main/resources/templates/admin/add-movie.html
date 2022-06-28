@@ -14,6 +14,7 @@ ADD MOVIE
             <th>Release Data</th>
             <th>Movie Price</th>
             <th>Review</th>
+            <th>Image</th>
             <th>Author(id)</th>
             <th>Company(id)</th>
         </tr>
@@ -36,6 +37,11 @@ ADD MOVIE
             <td>
                 <label>
                     <input type="number" th:field="*{Review}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:field="*{img}">
                 </label>
             </td>
             <td>

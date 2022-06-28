@@ -1,48 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif&family=Roboto:wght@400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/media.css">
 </head>
+<div th:insert="blocks/navbar"></div>
 <body>
-<form th:action="@{/}" th:object="${infoCus}" >
-    <div>
-        <h2>Login:</h2> <span th:text="*{login}"></span>
+<main class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col col-lg-3" th:insert="blocks/sidebar"></div>
+            <div class="col">
+                <form th:action="@{/information/new}" th:object="${infoCus}" method="post">
+                    <div th:if="${error}" class="alert alert-warning" role="alert">
+                        <div>
+                            <span th:text="${error}" class="error"></span>
+                        </div>
+                    </div>
+                    <h3>Account information</h3>
+                    <hr/>
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="inputEmail"
+                               th:field="*{email}" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" th:field="*{password}" id="inputPassword">
+                        <div th:if="${#fields.hasAnyErrors()}" class="form-text text-danger">
+                            The password must not be the same as the old one.
+                        </div>
+                    </div>
+                    <h3>Personal information</h3>
+                    <hr/>
+                    <div th:object="${info}">
+                        <div class="mb-3">
+                            <label for="inputName" class="form-label">First name</label>
+                            <input type="text" class="form-control" id="inputName"
+                                   th:field="*{name}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputSurname" class="form-label">Last name</label>
+                            <input type="text" class="form-control" th:field="*{surname}"
+                                   id="inputSurname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputAge" class="form-label">Age</label>
+                            <input type="number" class="form-control" th:field="*{age}"
+                                   id="inputAge">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPnone" class="form-label">Mobile Phone</label>
+                            <input type="tel" class="form-control" th:field="*{mobilePhone}"
+                                   id="inputPnone">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div>
-        <h2>Email</h2><span th:text="*{email}"></span>
-        <br>
-    </div>
-    <div th:object="${info}">
-        <div>
-            <h2>Name:</h2> <span th:text="${info.name}"></span>
-        </div>
-        <div>
-            <br>
-            <h2>Surname:</h2> <span th:text="${info.surname}"></span>
-            <br>
-        </div>
-        <div>
-            <h2>Age:</h2><span th:text="${info.age}"></span>
-            <br>
-        </div>
-        <div>
-            <h2>mobilePhone</h2><span th:text="${info.mobilePhone}"></span>
-        </div>
-        <h2>Subscribe</h2>
-        <span th:if="${status.name() == 'NOT_PAID'}">Not paid</span>
-        <span th:if="${status.name() == 'PAID'}">
-            Paid until
-            <span th:text="${EndOfSub}"></span>
-        </span>
-    <br><br>
-    <input type="submit" value="Return"/>
-        </div>
-</form>
-<br>
-<form th:action="@{/information/new}" method="get" >
-    <input type="submit" value="Edit info"/>
-</form>
+</main>
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="row no-gutters">-->
+<!--            <div class="col">-->
+<!--                <div class="card-block px-2">-->
+<!--                    <div class="text-right fs-6 text-dark">-->
+<!--                        <div class="container">-->
+<!--                            <form th:action="@{/}" th:object="${infoCus}">-->
+<!--                                <div>-->
+<!--                                    <h2>Login:</h2> <span th:text="*{login}"></span>-->
+<!--                                </div>-->
+<!--                                <div>-->
+<!--                                    <h2>Email</h2><span th:text="*{email}"></span>-->
+<!--                                    <br>-->
+<!--                                </div>-->
+<!--                                <div th:object="${info}">-->
+<!--                                    <div>-->
+<!--                                        <h2>Name:</h2> <span th:text="${info.name}"></span>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <br>-->
+<!--                                        <h2>Surname:</h2> <span th:text="${info.surname}"></span>-->
+<!--                                        <br>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <h2>Age:</h2><span th:text="${info.age}"></span>-->
+<!--                                        <br>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <h2>mobilePhone</h2><span th:text="${info.mobilePhone}"></span>-->
+<!--                                    </div>-->
+<!--                                    <h2>Subscribe</h2>-->
+<!--                                    <span th:if="${status.name() == 'NOT_PAID'}">Not paid</span>-->
+<!--                                    <span th:if="${status.name() == 'PAID'}">-->
+<!--                                            Paid until-->
+<!--                                        <span th:text="${EndOfSub}"></span>-->
+<!--                                            </span>-->
+<!--                                    <br><br>-->
+<!--                                    <input type="submit" value="Return"/>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                            <br>-->
+<!--                            <form th:action="@{/information/new}" method="get">-->
+<!--                                <input type="submit" value="Edit info"/>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+<div th:insert="blocks/downbar"></div>
 </body>
 </html>

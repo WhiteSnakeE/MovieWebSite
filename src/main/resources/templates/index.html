@@ -1,50 +1,219 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Main page</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif&family=Roboto:wght@400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/media.css">
 </head>
-<body>
-<h1>Hello</h1>
-<div sec:authorize="isAuthenticated()">
-    <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+<body class="bg-secondary bg-gradient " style="background-repeat:no-repeat">
+<header class="header">
+    <div class="header_top">
+        <div class="container">
+            <div class="header_contacts">
+                <a class="header_phone" href="tel:380963092145">+38 (096) 309 21 45</a>
+                <a class="header_email" href="#">surtx0119gmail.com</a>
+                <a data-fancybox data-src="#modal" href="javascript:"
+                   class="header_btn" th:href="@{/logout}">
+                    <div sec:authorize="isAuthenticated()">
+                        Hello, <span th:text="${#authentication.getPrincipal().getUsername()}"></span></div>
+                    <div sec:authorize="isAnonymous()">Hello,sign in please</div>
+                </a>
+            </div>
+        </div>
     </div>
-<br>
+    <div class="header_content">
+        <div class="container">
+            <div class="header_content-inner">
+                <div class="header_logo">
+                    <a href="#">
+                        <img width="300" height="30" src="/img/scream.png" alt="">
+                    </a>
+                </div>
+                <nav class="menu">
+                    <div class="header_btn-menu">
+                        <span class="icon-menu"></span>
+                    </div>
+                    <ul>
+                        <div sec:authorize="isAuthenticated()">
+                            <li><a th:href="@{/information}">Information</a></li>
+                            <li><a th:href="@{/movies}">Show movies</a></li>
+                            <li><a th:href="@{/library}">My movie library</a></li>
+                            <li><a th:href="@{/subscribe}">Buy sub</a></li>
+                            <li><a th:href="@{/logout}">Exit from account</a></li>
+                        </div>
+                    </ul>
+                    <div sec:authorize="isAnonymous() ">
+                        <li><a data-fancybox data-src="#modal" href="javascript:"
+                               th:href="@{/information}">Information</a></li>
+                        <li><a th:href="@{/movies}">Show movies</a></li>
+                        <li><a data-fancybox data-src="#modal" href="javascript:" th:href="@{/library}">My movie
+                            library</a></li>
+                        <li><a data-fancybox data-src="#modal" href="javascript:" th:href="@{/subscribe}">Buy sub</a>
+                        </li>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
 
-<div class="container-buttons">
-    <button>
-        <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
+
+<!--<div class="container-buttons">-->
+<!--    <button>-->
+<!--        <form th:action="@{/logout}" method="post">-->
+<!--            <input type="submit" value="Sign Out"/>-->
+<!--        </form>-->
+<!--    </button>-->
+<!--    <button>-->
+<!--        <form th:action="@{/information}" method="get">-->
+<!--            <input type="submit" value="Information"/>-->
+<!--        </form>-->
+<!--    </button>-->
+<!--    <button>-->
+<!--        <form th:action="@{/movies}" method="get">-->
+<!--            <input type="submit" value="Show Movies"/>-->
+<!--        </form>-->
+<!--    </button>-->
+<!--    <button>-->
+<!--        <form th:action="@{/library}" method="get">-->
+<!--            <input type="submit" value="My movie library"/>-->
+<!--        </form>-->
+<!--    </button>-->
+<!--    <button>-->
+<!--        <form th:action="@{/subscribe}" method="get">-->
+<!--            <input type="submit" value="Buy Subscribe"/>-->
+<!--        </form>-->
+<!--    </button>-->
+<!--    <br><br>-->
+<!--    <form th:action="@{/admin/index}" method="get"-->
+<!--          sec:authorize="hasAuthority('ADMIN')">-->
+<!--        <input type="submit" value="Admin panel"/>-->
+<!--    </form>-->
+<!--</div>-->
+<section class="slider">
+    <div class="container">
+        <div class="slider_inner">
+            <div class="slider_item">
+                <div class="slider_item-content">
+                    <div class="slider_title">
+                        WATCH YOUR FAVOURITE MOVIES AND SERIALS ONLINE
+                    </div>
+                    <div class="slider_text">
+                        Welcome to my movies one piece.There are you may find all your favourite movies by different
+                        companies,genres and authors.
+                        All worlds treasure of movies and serials wait for you.Do you want watch very old movies?
+                        Please,I
+                        have a lot.
+                        Do you want watch MARVEL or DC movies? You are welcome! Just chill and don't think about your
+                        problems, on this we are always happy to see you
+                    </div>
+                    <a th:href="@{/movies}" class="slider_btn default-btn">
+                        Go to movies treasure
+                    </a>
+
+                </div>
+            </div>
+            <div class="slider_item">
+                <div class="slider_item-content">
+                    <div class="slider_title">
+                        WATCH YOUR FAVOURITE MOVIES AND SERIALS ONLINE
+                    </div>
+                    <div class="slider_text">
+                        If you have movies on your account, you may to watch they, pushing on this button
+                    </div>
+                    <div sec:authorize="isAuthenticated() ">
+                    <a th:href="@{/library}" class="slider_btn default-btn">
+                        Go to my library
+                    </a>
+                    </div>
+                    <div sec:authorize="isAnonymous() ">
+                        <li><a class="slider_btn default-btn" data-fancybox data-src="#modal" href="javascript:">Sign in</a></li>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="slider_item">-->
+<!--                <div class="slider_item-content">-->
+<!--                    <div class="slider_title">-->
+<!--                        WATCH YOUR FAVOURITE MOVIES AND SERIALS ONLINE-->
+<!--                    </div>-->
+<!--                    <div class="slider_text">-->
+<!--                        If you want to change your personal information or maybe you want to buy a sub-->
+<!--                        pressing on this button-->
+<!--                    </div>-->
+<!--                    <div sec:authorize="isAuthenticated()">-->
+<!--                    <a th:href="@{/information}" class="slider_btn default-btn">-->
+<!--                        Go to info panel-->
+<!--                    </a>-->
+<!--                    </div>-->
+<!--                    <div sec:authorize="isAnonymous()">-->
+<!--                        <li><a class="slider_btn default-btn" data-fancybox data-src="#modal" href="javascript:">Sign in</a></li>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="footer_content">
+        <div class="container">
+            <div class="footer_inner">
+                <div class="footer_info">
+                    <div class="footer_title">
+                        OUR CINEMA IN NEW-YORK
+                    </div>
+                    <div class="footer_text">
+                        If you want to go to the best cinema in the USA, you should go to us
+                        use these contact or map to contact with us
+                    </div>
+                    <a data-fancybox data-src="#modal" href="javascript:"
+                       class="header_btn" th:href="@{/movies}">
+                        Movies Treasure
+                    </a>
+                    <ul class="footer_list">
+                        <li><a class = "footer_phone" href="tel:380963092145">+38 (096) 309 21 45</a></li>
+                        <li><a href="#">surtx0119gmail.com</a></li>
+                        <li><a class = "footer_address" href="#">102 North End Ave, New York</a></li>
+
+                    </ul>
+                </div>
+                <div class="footer_map">
+                    <iframe width="630px" height="250px" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.134755936992!2d-74.0155621!3d40.
+                715049900000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.
+                1!3m3!1m2!1s0x89c25a1b7e5f8307%3A0xde5b402ce13371d5!2zMTAyIE5vcnRoIEVuZCBBdmUsIE5ldyBZb3JrLCBOWSAxMDI4Miwg0KHQv9C-0LvRg9GH0LXQvdGWINCo0YLQsNGC0Lgg0JDQvNC10YDQuNC60Lg!5e0!3m2!1suk!2spl!4v1655322789516!5m2!1suk!2spl"
+                            style="border:0;"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer_copy">
+        <div class="container">
+            <div class="copy_text">
+                © 2022 Created By Kharchenko Vladyslav.
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="modal">
+    <form th:action="@{/login}" method="post">
+        <div><label><input type="text" placeholder="Your username" name="username"/> </label></div>
+        <div><label><input type="password" placeholder="Your password" name="password"/> </label></div>
+        <div><input type="submit" value="Sign In"/></div>
     </form>
-    </button>
-    <button>
-        <form th:action="@{/information}" method="get">
-        <input type="submit" value="Information"/>
-        </form>
-    </button>
-    <button>
-        <form th:action="@{/movies}" method="get">
-        <input type="submit" value="Show Movies"/>
-        </form>
-    </button>
-    <button>
-        <form th:action="@{/library}" method="get">
-            <input type="submit" value="My movie library"/>
-        </form>
-    </button>
-    <button>
-        <form th:action="@{/subscribe}" method="get">
-            <input type="submit" value="Buy Subscribe"/>
-        </form>
-    </button>
-    <br><br>
-        <form th:action="@{/admin/index}" method="get"
-              sec:authorize="hasAuthority('ADMIN')">
-            <input type="submit" value="Admin panel"/>
-        </form>
+    <a href="/registration">Registration</a>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<script src="/js/slick.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

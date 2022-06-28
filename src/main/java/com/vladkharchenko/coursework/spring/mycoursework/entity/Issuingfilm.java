@@ -29,9 +29,9 @@ public class Issuingfilm {
     @Column(name = "return_data")
     private LocalDate returnData;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_movies")
-    @JsonBackReference
     private Movie movie;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,

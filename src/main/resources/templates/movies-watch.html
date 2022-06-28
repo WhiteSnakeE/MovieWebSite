@@ -3,82 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <title>Watch movie online</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif&family=Roboto:wght@400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/media.css">
 </head>
-<body>
-<div>
-    <label>Name:</label>
-        <span th:text="*{Movie.movie_name}"></span>
-    <p>
-        <label>Release Data:</label>
-            <span th:text="*{Movie.releaseData}"></span>
-    </p>
-   <p>
-       <label>Price:</label>
-            <span th:text="*{Movie.movies_price}"></span>
-   </p>
-    <p>
-        <label>Review:</label>
-            <span th:text="*{Movie.review}"></span>
-    </p>
-    <p>
-        <label>Company:</label>
-            <span th:text="*{MovieCompany}"></span>
-    </p>
-    <p>
-    <label>Actors:</label>
-        <tr th:each="MovieActor,iterStat : ${MovieActors}">
+<div th:insert="blocks/navbar"></div>
+<!--<header class="header">-->
+<!--    <div th:insert="blocks/navbar"></div>-->
+<!--</header>-->
+<br>
+<body class="bg-dark" style="background-repeat:no-repeat">
+<div class="container">
+    <div class="row">
+        <div class="row no-gutters">
+            <div class="col col-lg-3">
+                <img width="100%" height="100%" th:src="${Movie.img}" class="img-fluid shadow" alt="">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <div class="text-right fs-6 text-light">
+                        <div class="container">
+                            <h3 class="card-title text-light">
+                                <span th:text="*{Movie.movie_name}"></span>
+                            </h3>
+                            <p class="card-text ">
+                            <p><b>Release Data:</b>
+                                <span th:text="*{Movie.releaseData}"></span>
+                            </p>
+                            <p><b>Price:</b>
+                                <span th:text="*{Movie.movies_price}"> $ </span>
+                            </p>
+                            <p>
+                            <p><b>Review:</b>
+                                <span th:text="*{Movie.review}"></span>
+                            </p>
+                            <p><b>Company:</b>
+                                <span th:text="*{Movie?.company?.companyName}"></span>
+                            </p>
+                            <p><b>Actors:</b>
+                                <tr th:each="MovieActor,iterStat : ${MovieActors}">
+                                    <td th:text="*{MovieActor.name}"></td>
+                                    <td th:text="${MovieActor.surname} + ${!iterStat.last ? ', ' : ''}"></td>
+                                </tr>
+                            </p>
+                            <p><b>Author:</b>
+                                <span th:text="*{Movie?.author?.authorName}"></span>
 
-            <td th:text ="*{MovieActor.name}"></td>
+                                <span th:text="*{Movie?.author?.authorSurName}"></span>
+                            </p>
+                            <p><b>Genres:</b>
+                                <tr th:each="MovieGenre,iterStat : ${MovieGenres}">
 
-            <td th:text ="${MovieActor.surname} + ${!iterStat.last ? ', ' : ''}"></td>
-
-        </tr>
-    </p>
-    <p>
-        <label>Author:</label>
-            <span th:text="*{MovieAuthor.authorName}"></span>
-
-            <span th:text="*{MovieAuthor.authorSurName}"></span>
-    </p>
-    <p>
-        <label>Genres:</label>
-        <tr th:each="MovieGenre,iterStat : ${MovieGenres}">
-
-            <td th:text ="${MovieGenre.name} + ${!iterStat.last ? ', ' : ''}"></td>
-
-        </tr>
-    </p>
+                                    <td th:text="${MovieGenre.name} + ${!iterStat.last ? ', ' : ''}"></td>
+                                </tr>
+                            </p>
+                            <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'NOT_PAID'}">
+                            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
+                                    <button class="btn btn-primary" type="submit">
+                                Buy for
+                            <span th:text="*{Movie.movies_price}"></span>
+                                dollars
+                                    </button>
+                            </form>
+                        </span>
+                            <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'PAID'}">
+                            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
+                                <button class="btn btn-primary" type="submit">
+                                    Free
+                                </button>
+                            </form>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="container-buttons">
-    <button>
-        <form th:action="@{/movies}" method="get">
-        <input type="submit" value=Return>
-    </form>
-    </button>
-        <br><br>
-        <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'NOT_PAID'}">
-            Buy for
-            <span th:text="*{Movie.movies_price}"></span>
-            dollars
-            <br><br>
-            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
-            <input type="submit" value=Buy>
-        </form>
-        </span>
-    <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'PAID'}">
-            <h3>It's free for you!</h3>
-            <br><br>
-            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">
-            <input type="submit" value="Get FREE">
-        </form>
-        </span>
 
-</div>
-<div>
-    <span th:if="${IsAlreadyBought>0}">
-           <h2>You have already bought this movie</h2>
-       </span>
-</div>
+<!--<div class="text-right fs-5 fw-bold text-dark">-->
+<!--    <div class="container">-->
+
+<!--        <p>-->
+<!--            <label>Name:</label>-->
+<!--            <span th:text="*{Movie.movie_name}"></span>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Release Data:</label>-->
+<!--            <span th:text="*{Movie.releaseData}"></span>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Price:</label>-->
+<!--            <span th:text="*{Movie.movies_price}"> $ </span>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Review:</label>-->
+<!--            <span th:text="*{Movie.review}"></span>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Company:</label>-->
+<!--            <span th:text="*{MovieCompany}"></span>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Actors:</label>-->
+<!--            <tr th:each="MovieActor,iterStat : ${MovieActors}">-->
+
+<!--                <td th:text="*{MovieActor.name}"></td>-->
+
+<!--                <td th:text="${MovieActor.surname} + ${!iterStat.last ? ', ' : ''}"></td>-->
+
+<!--            </tr>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Author:</label>-->
+<!--            <span th:text="*{MovieAuthor.authorName}"></span>-->
+
+<!--            <span th:text="*{MovieAuthor.authorSurName}"></span>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label>Genres:</label>-->
+<!--            <tr th:each="MovieGenre,iterStat : ${MovieGenres}">-->
+
+<!--                <td th:text="${MovieGenre.name} + ${!iterStat.last ? ', ' : ''}"></td>-->
+
+<!--            </tr>-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="container-buttons">-->
+<!--    <button>-->
+<!--        <form th:action="@{/movies}" method="get">-->
+<!--            <input type="submit" value=Return>-->
+<!--        </form>-->
+<!--    </button>-->
+<!--    <br><br>-->
+<!--    <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'NOT_PAID'}">-->
+<!--            Buy for-->
+<!--            <span th:text="*{Movie.movies_price}"></span>-->
+<!--            dollars-->
+<!--            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">-->
+<!--            <input type="submit" value=Buy>-->
+<!--        </form>-->
+<!--        </span>-->
+<!--    <span th:if="${IsAlreadyBought == 0} and ${status.name() == 'PAID'}">-->
+<!--            <br><br>-->
+<!--            <form th:action="@{/movies/{id}(id=${Movie.id_movies})}" method="post">-->
+<!--            <input type="submit" value="Get FREE">-->
+<!--        </form>-->
+<!--        </span>-->
+<!--</div>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

@@ -1,0 +1,27 @@
+@media (max-width: 700px){
+    .header_btn{
+        float: none;
+    }
+    .header_contacts{
+        text-align: center;
+    }
+    .header_btn:before{
+        display: none;
+    }
+    .header_btn-menu{
+    }
+    .menu ul{
+        display: none;
+    }
+}
+@media (max-width: 400px) {
+    .header_btn:before{
+        display: block;
+    }
+}
+@media (max-width: 375px) {
+    .header_email{
+        padding-right: 30px;
+    }
+}
+    

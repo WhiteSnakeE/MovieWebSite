@@ -1,0 +1,52 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<header th:fragment="nav" class="header">
+    <div class="header_top">
+        <div class="container">
+            <div class="header_contacts">
+                <a class="header_phone" href="tel:380963092145">+38 (096) 309 21 45</a>
+                <a class="header_email" href="#">surtx0119gmail.com</a>
+                <a data-fancybox data-src="#modal" href="javascript:"
+                   class="header_btn" th:href="@{/logout}">
+                    <div sec:authorize="isAuthenticated()">
+                        Hello, <span th:text="${#authentication.getPrincipal().getUsername()}"></span></div>
+                    <div sec:authorize="isAnonymous()">Hello,sign in please</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="header_content bg-light">
+        <div class="container">
+            <div class="header_content-inner">
+                <div class="header_logo">
+                    <a th:href="@{/}">
+                        <img width="300" height="30" src="/img/scream.png" alt="">
+                    </a>
+                </div>
+                <nav class="menu">
+                    <ul>
+                        <div sec:authorize="isAuthenticated()">
+                            <li><a th:href="@{/information}">Information</a></li>
+                            <li><a th:href="@{/movies}">Show movies</a></li>
+                            <li><a th:href="@{/library}">My movie library</a></li>
+                            <li><a th:href="@{/subscribe}">Buy sub</a></li>
+                            <li><a th:href="@{/logout}">Exit from account</a></li>
+                        </div>
+                    </ul>
+                    <div sec:authorize="isAnonymous() ">
+                        <li><a data-fancybox data-src="#modal" href="javascript:"
+                               th:href="@{/information}">Information</a></li>
+                        <li><a th:href="@{/movies}">Show movies</a></li>
+                        <li><a data-fancybox data-src="#modal" href="javascript:" th:href="@{/library}">My movie
+                            library</a></li>
+                        <li><a data-fancybox data-src="#modal" href="javascript:" th:href="@{/subscribe}">Buy sub</a>
+                        </li>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+</html>
+

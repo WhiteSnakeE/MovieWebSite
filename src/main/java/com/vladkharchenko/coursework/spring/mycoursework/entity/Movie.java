@@ -29,6 +29,9 @@ public class Movie {
     @Column(name = "review")
     private float review;
 
+    @Column(name = "img")
+    private String img;
+
     @ManyToOne
     @JoinColumn(name = "id_author")
     private Author author;
@@ -36,12 +39,13 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "id_company")
     private Company company;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "availible")
+    private Available available;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JoinColumn(name = "id_issuing" )
+    @OneToMany(mappedBy = "movie")
     private List<Issuingfilm> issuingfilmsList;
-
 
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name ="movies_has_genre"
@@ -55,11 +59,11 @@ public class Movie {
             ,inverseJoinColumns = @JoinColumn(name = "id_actors"))
     private List<Actor> actors;
 
-//
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name =  "id_issuing" )
-//    private List<IssuingFilms> issuingFilms;
-//
+//    private List<Issuingfilm> issuingFilms;
+
     public void addGenreToMovie(Genre genre){
         if(genre==null){
             genres = new ArrayList<>();

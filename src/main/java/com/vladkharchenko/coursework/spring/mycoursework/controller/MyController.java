@@ -1,16 +1,16 @@
 package com.vladkharchenko.coursework.spring.mycoursework.controller;
 
-import com.vladkharchenko.coursework.spring.mycoursework.dao.AuthorRep;
-import com.vladkharchenko.coursework.spring.mycoursework.dao.CustomerRepository;
-import com.vladkharchenko.coursework.spring.mycoursework.dao.IssuingfilmRep;
-import com.vladkharchenko.coursework.spring.mycoursework.dao.MoviesRepository;
+import com.vladkharchenko.coursework.spring.mycoursework.dao.*;
 import com.vladkharchenko.coursework.spring.mycoursework.entity.*;
 import com.vladkharchenko.coursework.spring.mycoursework.service.CustomerService;
 import com.vladkharchenko.coursework.spring.mycoursework.service.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -30,7 +30,12 @@ public class MyController {
     @Autowired
     private MoviesService moviesService;
     @Autowired
+    private CompanyRep companyRep;
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private GenreRep genreRep;
 
     @GetMapping({"/", ""})
     public String index() {
@@ -53,13 +58,20 @@ public class MyController {
     }
 
     @PostMapping("/registration")
-    public String addUser(Customer customer, Customerinfo customerinfo) {
+    public String addUser(Customer customer, Customerinfo customerinfo,Model model) {
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setRole(Role.USER);
         customer.setCustomerinfo(customerinfo);
         customerinfo.setCustomer(customer);
-        customerRepository.save(customer);
-        return "redirect:/login";
+        try{
+            customerRepository.save(customer);
+        }catch(JpaSystemException ex){
+            model.addAttribute("error",ex.getCause().getCause().getMessage());
+            model.addAttribute("customerInfo",customerinfo);
+            return "registration";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/information")
@@ -71,8 +83,8 @@ public class MyController {
         model.addAttribute("status", customer.getUserSubscribe().getStatus());
         model.addAttribute("EndOfSub", customer.getUserSubscribe().getEnd());
         return "information";
-    }
 
+    }
     @GetMapping("/information/new")
     public String editInfo(Principal principal, Model customerInfoModel, Model customerModel) {
         Customer customer = customerRepository.findByLogin(principal.getName());
@@ -81,12 +93,13 @@ public class MyController {
         customerModel.addAttribute("customer1", customer);
         return "edit-info";
     }
-
     @GetMapping("/subscribe")
     public String customerSubscribe(Principal principal,Model model){
         Customer customer = customerRepository.findByLogin(principal.getName());
         Status status = customer.getUserSubscribe().getStatus();
+        UserSubscribe userSubscribe = customer.getUserSubscribe();
         model.addAttribute("SubStatus",status);
+        model.addAttribute("sub",userSubscribe );
         return "subscribe";
     }
 
@@ -101,50 +114,84 @@ public class MyController {
         customerRepository.save(customer);
         return "index";
     }
-
     @PostMapping("/information/new")
-    public String setInfo(Customerinfo customerinfo, Principal principal, @ModelAttribute Customer customer1) {
+    public String setInfo(Customerinfo customerinfo, Principal principal,
+                          @ModelAttribute Customer customer1, BindingResult result,Model model) {
         Customer customer = customerRepository.findByLogin(principal.getName());
+        if (!customer1.getPassword().equals("")) {
+            if (!passwordEncoder.matches(customer1.getPassword(), customer.getPassword())) {
+                customer.setPassword(passwordEncoder.encode(customer1.getPassword()));
+            } else {
+                ObjectError error = new ObjectError("globalError",
+                        "The password must not be the same as the old one.");
+                result.addError(error);
+                System.out.println(result.hasErrors());
+                return "redirect:/information";
+            }
+        }
         customer.getCustomerinfo().setName(customerinfo.getName());
         customer.getCustomerinfo().setSurname(customerinfo.getSurname());
         customer.getCustomerinfo().setAge(customerinfo.getAge());
         customer.getCustomerinfo().setMobilePhone(customerinfo.getMobilePhone());
         customerinfo.setCustomer(customer);
-        customer.setLogin(customer1.getLogin());
+//        customer.setLogin(customer1.getLogin());
         customer.setEmail(customer1.getEmail());
-        customerRepository.save(customer);
-        return "login";
+        try{
+            customerRepository.save(customer);
+        }
+        catch(JpaSystemException ex) {
+            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            model.addAttribute("infoCus", customer);
+            model.addAttribute("info", customerinfo);
+            return "information";
+        }
+        return "redirect:/information";
     }
-
     @GetMapping("/movies")
-    public String showAllMovies(Model model) {
+    public String showAllMovies(Model model,
+                                @RequestParam(name ="genre",required = false)String name,
+                                @RequestParam(name ="selectCompany",required = false)String companyName) {
         List<Movie> movies = moviesRepository.getAllMoviesBy();
-        model.addAttribute("Movies", movies);
+        List<Company> companies = companyRep.findAll();
+        List<Movie> genresMoviesList ;
+        if (name != null && name.length()>0) {
+            genresMoviesList = moviesRepository.findAllByGenres(genreRep.findByName(name));
+        } else {
+            genresMoviesList = moviesRepository.findAll();
+        }
+        List<Genre> genres = genreRep.findAll();
+        model.addAttribute("Movies",genresMoviesList);
+        model.addAttribute("genres",genres);
+        model.addAttribute("companies",companies);
         return "movies";
     }
-
     @GetMapping("/movies/{id}")
     public String showMovie(@PathVariable int id, Model model, Principal principal) {
         Movie movie = moviesService.getMovie(id);
-        Customer customer = customerRepository.findByLogin(principal.getName());
-        List<Issuingfilm> issuingfilmList = customer.getIssuingfilms();
-        Status status = customer.getUserSubscribe().getStatus();
-        int result;
-        int count = 0;
-        LocalDate startDate = LocalDate.now();
-        for (Issuingfilm issuing : issuingfilmList) {
-            result = startDate.compareTo(issuing.getReturnData());
-            if (issuing.getMovie().getId_movies() == id && result < 0) {
-                count += 1;
+        if (principal != null) {
+            if (movie.getAvailable() != Available.AVAILABLE) {
+                return "errorPage";
             }
+            Customer customer = customerRepository.findByLogin(principal.getName());
+            List<Issuingfilm> issuingfilmList = customer.getIssuingfilms();
+            Status status = customer.getUserSubscribe().getStatus();
+            int result;
+            int count = 0;
+            LocalDate startDate = LocalDate.now();
+            for (Issuingfilm issuing : issuingfilmList) {
+                result = startDate.compareTo(issuing.getReturnData());
+                if (issuing.getMovie().getId_movies() == id && result < 0) {
+                    count += 1;
+                }
+            }
+            model.addAttribute("IsAlreadyBought", count);
+            model.addAttribute("status",status);
         }
         model.addAttribute("Movie", movie);
-        model.addAttribute("MovieCompany", movie.getCompany().getCompanyName());
+//        model.addAttribute("MovieCompany", movie.getCompany().getCompanyName());
         model.addAttribute("MovieActors", movie.getActors());
         model.addAttribute("MovieAuthor", movie.getAuthor());
         model.addAttribute("MovieGenres", movie.getGenres());
-        model.addAttribute("IsAlreadyBought", count);
-        model.addAttribute("status",status);
 
         return "movies-watch";
     }
@@ -153,6 +200,9 @@ public class MyController {
     public String library(Principal principal, Model model,Issuingfilm issuingfilm) {
         LocalDate startDate = LocalDate.now();
         Customer customer = customerRepository.findByLogin(principal.getName());
+        if(customer == null){
+            return "login";
+        }
         List<Issuingfilm> issuingfilmList = customer.getIssuingfilms();
         model.addAttribute("YourFilms", customer.getIssuingfilms());
         return "customer-movie-library";

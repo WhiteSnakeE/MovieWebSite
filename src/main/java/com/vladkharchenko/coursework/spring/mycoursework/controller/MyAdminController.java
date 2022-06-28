@@ -38,12 +38,14 @@ public class MyAdminController {
     @PostMapping("/addMovie")
     public String createMovie(Movie movie, @RequestParam List<Genre> genres) {
         List<Genre> genreList = genreRep.findAll();
+        movie.setAvailable(Available.AVAILABLE);
         moviesRepository.save(movie);
         return "admin/admin-main-page";
     }
     @GetMapping("/allMovies")
     public String allMovies(Model model) {
         List<Movie> movie = moviesRepository.findAll();
+
         model.addAttribute("AllMovies",movie);
         return "admin/admin-all-movies";
     }
@@ -61,7 +63,9 @@ public class MyAdminController {
         movie.setAuthor(movie1.getAuthor());
         movie.setMovie_name(movie1.getMovie_name());
         movie.setMovies_price(movie1.getMovies_price());
-        movie.setCompany(movie1.getCompany());
+
+            movie.setCompany(movie1.getCompany());
+
         movie.setReleaseData(movie1.getReleaseData());
         movie.setReview(movie1.getReview());
         moviesRepository.save(movie);
@@ -167,7 +171,6 @@ public class MyAdminController {
         genreRep.save(genre);
         return "admin/admin-main-page";
     }
-
     @PostMapping("/allGenres/{id}/delete")
     public String deleteGenre(@PathVariable int id) {
         Genre genre = genreRep.getReferenceById(id);

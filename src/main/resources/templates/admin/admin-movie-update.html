@@ -13,6 +13,7 @@
             <th>Release Data</th>
             <th>Movie Price</th>
             <th>Review</th>
+            <th>Img</th>
             <th>Author(id)</th>
             <th>Company(id)</th>
         </tr>
@@ -39,6 +40,11 @@
             </td>
             <td>
                 <label>
+                    <input type="text" th:field="*{img}">
+                </label>
+            </td>
+            <td>
+                <label>
                     <input type="number" th:field="*{author.id}">
                 </label>
             </td>
@@ -49,6 +55,9 @@
             </td>
         </tr>
     </table>
+    <br><br>
+
+
     <br><br>
     <div>
         <input type="submit" value="Update">

@@ -16,9 +16,8 @@ import java.util.List;
 public class UsecSubscribeImpl {
     @Autowired
     private UserSubcribeRep userSubcribeRep;
-
-//    @Scheduled(fixedDelay=10000)
-    @Scheduled(cron = "@hourly")
+    @Scheduled(fixedDelay=10000)
+//    @Scheduled(cron = "@daily")
     public void endUserSub(){
         List<UserSubscribe> userSubscribeList = userSubcribeRep.findAll();
         int result;
